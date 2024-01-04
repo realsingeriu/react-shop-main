@@ -1,0 +1,14 @@
+.custom-card {
+  width: 350px;
+  max-width: 100%;
+  /* background-color: #eee !important; */
+}
+
+.user-icon {
+  font-size: 100px;
+  color: lightskyblue;
+}
+
+form label {
+  text-indent: 10px;
+}
