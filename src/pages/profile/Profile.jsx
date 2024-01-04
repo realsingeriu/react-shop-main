@@ -29,6 +29,7 @@ const Profile = () => {
       .then(() => {
         //clear session
         dispatch(clearCurrentUser()); // 유저를 클리어
+        window.location.href = "/login"; // 로그인 페이지로
       })
       .catch((err) => {
         setErrorMessage("예기치 않은 에러가 발생했습니다.");
