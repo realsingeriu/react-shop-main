@@ -2,12 +2,14 @@ import React, { useEffect, useRef, useState } from 'react';
 import productService from '../../services/Product.service';
 import ProductSave from '../../components/ProductSave';
 import Product from '../../models/Product';
+import ProductDelete from '../../components/ProductDelete';
 
 const Admin = () => {
   const [productList, setProductList] = useState([]);
   const [selectedProduct, setSelectedProduct] = useState(new Product('', '', 0));
   const [errorMessage, setErrorMessage] = useState('');
-  const saveComponent = useRef();
+  const saveComponent = useRef(); //새로저장,수정 모달
+  const deleteComponent = useRef(); //삭제 모달
 
   useEffect(() => {
     productService.getAllProducts().then((response) => {
@@ -52,6 +54,11 @@ const Admin = () => {
         console.log(err);
       });
   };
+  const deleteProductRequest = (item) => {
+    console.log(item);
+    setSelectedProduct(item);
+    deleteComponent.current?.showDeleteModal(); //삭제모달 열기
+  };
 
   return (
     <div className="container">
@@ -95,7 +102,7 @@ const Admin = () => {
                     >
                       수 정
                     </button>
-                    <button onClick={() => deleteProduct(item)} className="btn btn-danger">
+                    <button onClick={() => deleteProductRequest(item)} className="btn btn-danger">
                       삭 제
                     </button>
                   </td>
@@ -110,6 +117,7 @@ const Admin = () => {
         product={selectedProduct}
         onSaved={(p) => saveProductWatcher(p)}
       />
+      <ProductDelete ref={deleteComponent} />
     </div>
   );
 };
