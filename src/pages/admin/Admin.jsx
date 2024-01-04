@@ -1,13 +1,15 @@
-import React, { useEffect, useRef, useState } from 'react';
-import productService from '../../services/Product.service';
-import ProductSave from '../../components/ProductSave';
-import Product from '../../models/Product';
-import ProductDelete from '../../components/ProductDelete';
+import React, { useEffect, useRef, useState } from "react";
+import productService from "../../services/Product.service";
+import ProductSave from "../../components/ProductSave";
+import Product from "../../models/Product";
+import ProductDelete from "../../components/ProductDelete";
 
 const Admin = () => {
   const [productList, setProductList] = useState([]);
-  const [selectedProduct, setSelectedProduct] = useState(new Product('', '', 0));
-  const [errorMessage, setErrorMessage] = useState('');
+  const [selectedProduct, setSelectedProduct] = useState(
+    new Product("", "", 0)
+  );
+  const [errorMessage, setErrorMessage] = useState("");
   const saveComponent = useRef(); //새로저장,수정 모달
   const deleteComponent = useRef(); //삭제 모달
 
@@ -42,28 +44,30 @@ const Admin = () => {
     setSelectedProduct(item);
     saveComponent.current?.showProductModal();
   };
-  const deleteProduct = (item) => {
-    if (!window.confirm('정말로 삭제하겠습니까?')) return;
+  //모달창에 확인을 눌렀을때 삭제할 제품을 삭제한다.
+  const deleteProduct = () => {
     productService
-      .deleteProduct(item)
+      .deleteProduct(selectedProduct)
       .then((_) => {
-        setProductList(productList.filter((p) => p.id !== item.id));
+        setProductList(productList.filter((p) => p.id !== selectedProduct.id));
       })
       .catch((err) => {
-        setErrorMessage('삭제중 에러발생!');
+        setErrorMessage("삭제중 에러발생!");
         console.log(err);
       });
   };
+  // 삭제버튼 누르면 일단 스테이트에 삭제할 제품 업데이트하고 모달을 연다.
   const deleteProductRequest = (item) => {
     console.log(item);
     setSelectedProduct(item);
     deleteComponent.current?.showDeleteModal(); //삭제모달 열기
   };
-
   return (
     <div className="container">
       <div className="card mt-5">
-        {errorMessage && <div className="alert alert-danger">{errorMessage}</div>}
+        {errorMessage && (
+          <div className="alert alert-danger">{errorMessage}</div>
+        )}
         <div className="card-header">
           <div className="row">
             <div className="col-6">
@@ -71,7 +75,10 @@ const Admin = () => {
             </div>
 
             <div className="col-6 text-end">
-              <button onClick={createProductRequest} className="btn btn-primary">
+              <button
+                onClick={createProductRequest}
+                className="btn btn-primary"
+              >
                 새 제품
               </button>
             </div>
@@ -102,7 +109,10 @@ const Admin = () => {
                     >
                       수 정
                     </button>
-                    <button onClick={() => deleteProductRequest(item)} className="btn btn-danger">
+                    <button
+                      onClick={() => deleteProductRequest(item)}
+                      className="btn btn-danger"
+                    >
                       삭 제
                     </button>
                   </td>
@@ -117,7 +127,11 @@ const Admin = () => {
         product={selectedProduct}
         onSaved={(p) => saveProductWatcher(p)}
       />
-      <ProductDelete ref={deleteComponent} />
+      <ProductDelete
+        ref={deleteComponent}
+        onConfirmed={() => deleteProduct()}
+        setProduct={setSelectedProduct}
+      />
     </div>
   );
 };
