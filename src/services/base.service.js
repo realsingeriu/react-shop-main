@@ -20,7 +20,7 @@ const handleResponseWithLoginCheck = () => {
       const status = error?.response?.status;
       if (isLoggedIn && [401, 403].includes(status)) {
         store.dispatch(clearCurrentUser());
-        history.push("/login");
+        window.location.href = "/login";
       }
       return Promise.reject(error);
     }
