@@ -1,7 +1,12 @@
-import React, { forwardRef, useEffect, useImperativeHandle, useState } from 'react';
-import Product from '../models/Product';
-import { Modal } from 'react-bootstrap';
-import productService from '../services/Product.service';
+import React, {
+  forwardRef,
+  useEffect,
+  useImperativeHandle,
+  useState,
+} from "react";
+import Product from "../models/Product";
+import { Modal } from "react-bootstrap";
+import productService from "../services/Product.service";
 
 //상품 저장 및 수정 모달창
 const ProductSave = forwardRef((props, ref) => {
@@ -16,8 +21,8 @@ const ProductSave = forwardRef((props, ref) => {
     setProduct(props.product);
   }, [props.product]);
 
-  const [product, setProduct] = useState(new Product('', '', 0));
-  const [errorMessage, setErrorMessage] = useState('');
+  const [product, setProduct] = useState(new Product("", "", 0));
+  const [errorMessage, setErrorMessage] = useState("");
   const [show, setShow] = useState(false);
   const [submitted, setSubmitted] = useState(false);
 
@@ -34,11 +39,11 @@ const ProductSave = forwardRef((props, ref) => {
         setSubmitted(false);
       })
       .catch((err) => {
-        setErrorMessage('제품 저장시 에러발생!');
+        setErrorMessage("제품 저장시 에러발생!");
         console.log(err);
       });
 
-    setProduct(new Product('', '', 0)); //입력창 초기화
+    setProduct(new Product("", "", 0)); //입력창 초기화
   };
 
   const handleChange = (e) => {
@@ -54,19 +59,29 @@ const ProductSave = forwardRef((props, ref) => {
 
   const closeModal = () => {
     setShow(false); //모달 닫기
-    setProduct(new Product('', '', 0)); //제품 초기화
+    setProduct(new Product("", "", 0)); //제품 초기화
   };
 
   return (
     <Modal show={show}>
-      <form noValidate onSubmit={saveProduct} className={submitted ? 'was-validated' : ''}>
+      <form
+        noValidate
+        onSubmit={saveProduct}
+        className={submitted ? "was-validated" : ""}
+      >
         <div className="modal-header">
           <h5 className="modal-title">상품 정보</h5>
-          <button type="button" className="btn-close" onClick={closeModal}></button>
+          <button
+            type="button"
+            className="btn-close"
+            onClick={closeModal}
+          ></button>
         </div>
 
         <div className="modal-body">
-          {errorMessage && <div className="alert alert-danger">{errorMessage}</div>}
+          {errorMessage && (
+            <div className="alert alert-danger">{errorMessage}</div>
+          )}
 
           <div className="form-group">
             <label htmlFor="name">상품명: </label>
@@ -108,12 +123,18 @@ const ProductSave = forwardRef((props, ref) => {
               onChange={handleChange}
               required
             />
-            <div className="invalid-feedback">Price is required and should be greater than 0.</div>
+            <div className="invalid-feedback">
+              Price is required and should be greater than 0.
+            </div>
           </div>
         </div>
 
         <div className="modal-footer">
-          <button type="button" className="btn btn-secondary" onClick={closeModal}>
+          <button
+            type="button"
+            className="btn btn-secondary"
+            onClick={closeModal}
+          >
             닫기
           </button>
           <button type="submit" className="btn btn-primary">

@@ -1,8 +1,8 @@
-import { NavLink, useNavigate } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
-import logo from '../assets/react.svg';
-import { clearCurrentUser } from '../store/actions/user';
-import { Role } from '../models/Role';
+import { NavLink, useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import logo from "../assets/react.svg";
+import { clearCurrentUser } from "../store/actions/user";
+import { Role } from "../models/Role";
 
 const Navbar = () => {
   const currentUser = useSelector((state) => state.user);
@@ -12,7 +12,7 @@ const Navbar = () => {
 
   const logout = () => {
     dispatch(clearCurrentUser());
-    navigate('/login');
+    navigate("/login");
   };
 
   return (

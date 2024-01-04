@@ -1,4 +1,4 @@
-import { CLEAR_CURRENT_USER, SET_CURRENT_USER } from '../types';
+import { CLEAR_CURRENT_USER, SET_CURRENT_USER } from "../types";
 
 //액션을 만들어 리턴하는 함수
 export const setCurrentUser = (user) => {

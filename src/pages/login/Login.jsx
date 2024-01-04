@@ -1,25 +1,25 @@
-import React, { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { Link, useNavigate } from 'react-router-dom';
-import User from '../../models/User';
-import { loginService } from '../../services/auth.service';
-import { setCurrentUser } from '../../store/actions/user';
-import './Login.css';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faUserCircle } from '@fortawesome/free-solid-svg-icons';
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { Link, useNavigate } from "react-router-dom";
+import User from "../../models/User";
+import { loginService } from "../../services/auth.service";
+import { setCurrentUser } from "../../store/actions/user";
+import "./Login.css";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faUserCircle } from "@fortawesome/free-solid-svg-icons";
 
 const Login = () => {
-  const [user, setUser] = useState(new User('', '', ''));
+  const [user, setUser] = useState(new User("", "", ""));
   const [loading, setLoading] = useState(false);
   const [submitted, setSubmitted] = useState(false);
-  const [errorMessage, setErrorMessage] = useState('');
+  const [errorMessage, setErrorMessage] = useState("");
 
   const currentUser = useSelector((state) => state.user);
   const dispatch = useDispatch(); // 디스패치 객체 생성
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (currentUser?.id) navigate('/profile');
+    if (currentUser?.id) navigate("/profile");
   }, []);
 
   const handleChange = (e) => {
@@ -47,11 +47,11 @@ const Login = () => {
       .then((response) => {
         //setCurrentUser로 만든 액션을 유저 리듀서에 전달
         dispatch(setCurrentUser(response.data));
-        navigate('/profile');
+        navigate("/profile");
       })
       .catch((error) => {
         console.log(error);
-        setErrorMessage('유저네임 또는 패스워드가 틀립니다.');
+        setErrorMessage("유저네임 또는 패스워드가 틀립니다.");
         setLoading(false);
       });
 
@@ -60,11 +60,20 @@ const Login = () => {
   return (
     <div className="container mt-5">
       <div className="card ms-auto me-auto p-3 shadow-lg custom-card">
-        <FontAwesomeIcon icon={faUserCircle} className="ms-auto me-auto user-icon" />
+        <FontAwesomeIcon
+          icon={faUserCircle}
+          className="ms-auto me-auto user-icon"
+        />
 
-        {errorMessage && <div className="alert alert-danger">{errorMessage}</div>}
+        {errorMessage && (
+          <div className="alert alert-danger">{errorMessage}</div>
+        )}
 
-        <form onSubmit={handleLogin} noValidate className={submitted ? 'was-validated' : ''}>
+        <form
+          onSubmit={handleLogin}
+          noValidate
+          className={submitted ? "was-validated" : ""}
+        >
           <div className="form-group my-2">
             <label htmlFor="username">유저이름</label>
             <input
@@ -93,12 +102,19 @@ const Login = () => {
             <div className="invalid-feedback">패스워드를 입력해주세요</div>
           </div>
 
-          <button className="btn btn-info text-white w-100 mt-3" disabled={loading}>
+          <button
+            className="btn btn-info text-white w-100 mt-3"
+            disabled={loading}
+          >
             로그인
           </button>
         </form>
 
-        <Link to="/register" className="btn btn-link" style={{ color: 'darkgray' }}>
+        <Link
+          to="/register"
+          className="btn btn-link"
+          style={{ color: "darkgray" }}
+        >
           새 계정 만들기
         </Link>
       </div>

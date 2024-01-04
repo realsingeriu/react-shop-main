@@ -2,7 +2,9 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import purchaseService from "../../services/Purchase.service";
-import { CLEAR_CURRENT_USER } from "../../store/types";
+import userService from "../../services/user.service";
+import { clearCurrentUser } from "../../store/actions/user";
+import { Role } from "../../models/Role";
 
 const Profile = () => {
   const [purchaseList, setPurchaseList] = useState([]);
@@ -19,14 +21,14 @@ const Profile = () => {
   }, []);
 
   const changeRole = () => {
-    const newRole = currentUser.role === "ADMIN" ? "USER" : "ADMIN";
+    // 현재 유저의 role이 ADMIN이면 유저로 아니면 ADMIN으로 newRole를 만듬
+    const newRole = currentUser.role === Role.ADMIN ? Role.USER : Role.ADMIN;
 
     userService
       .changeRole(newRole)
       .then(() => {
         //clear session
-        dispatch(CLEAR_CURRENT_USER());
-        navigate("/login");
+        dispatch(clearCurrentUser()); // 유저를 클리어
       })
       .catch((err) => {
         setErrorMessage("예기치 않은 에러가 발생했습니다.");
