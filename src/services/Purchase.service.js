@@ -10,7 +10,7 @@ class PurchaseService {
   }
 
   getAllPurchases() {
-    return axios.get(API_URL);
+    return axios.get(API_URL, { headers: authHeader() });
   }
 }
 //객체로 만들어서 사용(export)
