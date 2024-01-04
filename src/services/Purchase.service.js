@@ -14,6 +14,6 @@ class PurchaseService {
   }
 }
 //객체로 만들어서 사용(export)
-const PurchaseService = new PurchaseService();
+const purchaseService = new PurchaseService();
 
-export default PurchaseService;
+export default purchaseService;

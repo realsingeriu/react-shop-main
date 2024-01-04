@@ -4,6 +4,8 @@ import { useSelector } from "react-redux";
 import "./Home.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCartPlus } from "@fortawesome/free-solid-svg-icons";
+import Purchase from "../../models/Purchase";
+import purchaseService from "../../services/Purchase.service";
 
 const Home = () => {
   const [productList, setProductList] = useState([]);
@@ -23,6 +25,17 @@ const Home = () => {
       setErrorMessage("로그인하셔야 구매가능 합니다.");
       return;
     }
+    const purchase = new Purchase(currentUser.id, product.id, product.price);
+
+    purchaseService
+      .savePurchase(purchase)
+      .then(() => {
+        setInfoMessage("구매완료!");
+      })
+      .catch((err) => {
+        setErrorMessage("예상치 못한 에러가 발생했습니다.");
+        console.log(err);
+      });
   };
 
   return (
