@@ -5,9 +5,12 @@ import purchaseService from "../../services/Purchase.service";
 import userService from "../../services/user.service";
 import { clearCurrentUser } from "../../store/actions/user";
 import { Role } from "../../models/Role";
+import Purchase from "../../models/Purchase";
 
 const Profile = () => {
   const [purchaseList, setPurchaseList] = useState([]);
+  const [totalPrice, setTotalPrice] = useState(0);
+  const [totalOrders, setTotalOrders] = useState(0);
   const [errorMessage, setErrorMessage] = useState("");
 
   const currentUser = useSelector((state) => state.user);
@@ -17,6 +20,16 @@ const Profile = () => {
   useEffect(() => {
     purchaseService.getAllPurchases().then((response) => {
       setPurchaseList(response.data);
+
+      // 총 주문 가격 및 갯수 계산
+      const totalPrice = purchaseList.reduce(
+        (total, Purchase) => total + Purchase.price,
+        0
+      );
+      setTotalPrice(totalPrice);
+
+      const totalOrders = purchaseList.length;
+      setTotalOrders(totalOrders);
     });
   }, []);
 
@@ -56,6 +69,10 @@ const Profile = () => {
           </div>
         </div>
         <div className="card-body">
+          <div>
+            <p>총 주문 가격: {totalPrice} 원</p>
+            <p>총 주문 갯수: {totalOrders} 개</p>
+          </div>
           <table className="table table-striped">
             <thead>
               <tr>
