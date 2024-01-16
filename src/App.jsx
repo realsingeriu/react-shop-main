@@ -1,16 +1,17 @@
-import 'bootstrap/dist/css/bootstrap.min.css';
-import './App.css';
-import Navbar from './components/Navbar';
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import Home from './pages/home/Home';
-import Login from './pages/login/Login';
-import Register from './pages/register/Register';
-import Admin from './pages/admin/Admin';
-import NotFound from './pages/not-found/NotFound';
-import UnAuthorized from './pages/unauthorized/UnAuthorized';
-import Profile from './pages/profile/Profile';
-import AuthGuard from './guards/AuthGuard';
-import { Role } from './models/Role';
+import "bootstrap/dist/css/bootstrap.min.css";
+import "./App.css";
+import Navbar from "./components/Navbar";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+import Home from "./pages/home/Home";
+import Login from "./pages/login/Login";
+import Register from "./pages/register/Register";
+import Admin from "./pages/admin/Admin";
+import NotFound from "./pages/not-found/NotFound";
+import UnAuthorized from "./pages/unauthorized/UnAuthorized";
+import Profile from "./pages/profile/Profile";
+import AuthGuard from "./guards/AuthGuard";
+import { Role } from "./models/Role";
+import Footer from "./components/Footer";
 
 function App() {
   return (
@@ -43,6 +44,7 @@ function App() {
           <Route path="*" element={<NotFound />} />
         </Routes>
       </div>
+      <Footer />
     </BrowserRouter>
   );
 }
