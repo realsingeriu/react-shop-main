@@ -5,7 +5,6 @@ import purchaseService from "../../services/Purchase.service";
 import userService from "../../services/user.service";
 import { clearCurrentUser } from "../../store/actions/user";
 import { Role } from "../../models/Role";
-import Purchase from "../../models/Purchase";
 
 const Profile = () => {
   const [purchaseList, setPurchaseList] = useState([]);
@@ -17,20 +16,35 @@ const Profile = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  useEffect(() => {
+  const fetchPurchaseData = () => {
     purchaseService.getAllPurchases().then((response) => {
-      setPurchaseList(response.data);
+      const purchases = response.data;
+
+      setPurchaseList(purchases);
 
       // 총 주문 가격 및 갯수 계산
-      const totalPrice = purchaseList.reduce(
-        (total, Purchase) => total + Purchase.price,
+      const totalPrice = purchases.reduce(
+        (total, purchase) => total + purchase.price,
         0
       );
       setTotalPrice(totalPrice);
 
-      const totalOrders = purchaseList.length;
+      const totalOrders = purchases.length;
       setTotalOrders(totalOrders);
     });
+  };
+
+  useEffect(() => {
+    // 최초 로딩 시 데이터 가져오기
+    fetchPurchaseData();
+
+    // 1초마다 데이터 갱신
+    const intervalId = setInterval(() => {
+      fetchPurchaseData();
+    }, 1000);
+
+    // 컴포넌트 언마운트 시 clearInterval 호출하여 갱신 중지
+    return () => clearInterval(intervalId);
   }, []);
 
   const changeRole = () => {
@@ -70,7 +84,7 @@ const Profile = () => {
         </div>
         <div className="card-body">
           <div>
-            <p>총 주문 가격: {totalPrice} 원</p>
+            <p>총 주문 가격: {totalPrice.toLocaleString()} 원</p>
             <p>총 주문 갯수: {totalOrders} 개</p>
           </div>
           <table className="table table-striped">
@@ -87,7 +101,7 @@ const Profile = () => {
                 <tr key={ind}>
                   <th scope="row">{ind + 1}</th>
                   <td>{item.name}</td>
-                  <td>{`${item.price} 원`}</td>
+                  <td>{`${item.price.toLocaleString()} 원`}</td>
                   <td>{new Date(item.purchaseTime).toLocaleDateString()}</td>
                 </tr>
               ))}

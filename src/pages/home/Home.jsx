@@ -58,7 +58,7 @@ const Home = () => {
             />
 
             <div className="row mt-2 p-3">
-              <div className="col-6 mt-2 ps-3">{`${item.price}원`}</div>
+              <div className="col-6 mt-2 ps-3">{`${item.price.toLocaleString()}원`}</div>
               <div className="col-6">
                 <button
                   className="btn btn-outline-success w-100"

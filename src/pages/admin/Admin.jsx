@@ -100,7 +100,7 @@ const Admin = () => {
                 <tr key={index}>
                   <th scope="col">{index + 1}</th>
                   <td>{item.name}</td>
-                  <td>{item.price} 원</td>
+                  <td>{item.price.toLocaleString()} 원</td>
                   <td>{new Date(item.createTime).toLocaleString()}</td>
                   <td>
                     <button
